@@ -43,9 +43,6 @@ app.get("/manga", async(req, res) => {
     }
 })
 
-
-app.use("/.netlify/functions/api", router)
-
 app.listen(port, () => {
     console.log(
         "Express server listening on port %d in %s mode",
