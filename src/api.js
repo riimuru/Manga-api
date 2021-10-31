@@ -35,7 +35,13 @@ app.get("/manga", async(req, res) => {
         const state = req.query.state
         const page = req.query.page
 
-        await scrapeLatestManga(list, type, category, state, page)
+        await scrapeLatestManga({
+            list = list,
+            type = type,
+            category = category,
+            state = state,
+            page = page
+        })
         res.status(200).json(list)
 
     } catch (err) {
