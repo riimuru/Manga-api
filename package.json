@@ -1,14 +1,15 @@
 {
     "name": "shonenjumpapi",
     "version": "1.0.0",
-    "engines": {
-        "node": "16.10.0"
-    },
     "description": "",
     "main": "src/api.js",
+    "type": "module",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/riimuru/ShonenJumpApi.git"
+    },
+    "engines": {
+        "node": "16.10.0"
     },
     "author": "",
     "license": "ISC",
