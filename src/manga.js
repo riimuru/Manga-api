@@ -15,8 +15,10 @@ export const scrapeLatestManga = async({ list, type = "latest", category = "all"
 
             $('div.leftCol.listCol > div > div.list-truyen-item-wrap').each((i, el) => {
                 list.push({
+                    index: i,
                     title: $(el).find('h3 > a').text().trim(),
                     chapter: $(el).find('a.list-story-item-wrap-chapter').text().trim(),
+                    img: $(el).find('a:nth-child(1) > img').attr('src'),
                     src: $(el).find('a').attr('href'),
                     synopsis: $(el).find('p').text().replace('More.', '').replace(/\n/g, '').trim(),
                     views: $(el).find('div > span').text().trim()
