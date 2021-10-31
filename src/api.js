@@ -1,7 +1,6 @@
 import express from 'express'
 import jwt from "jsonwebtoken";
 import cors from 'cors'
-import serverless from 'serverless-http'
 
 import {
     scrapeLatestManga,
@@ -19,17 +18,16 @@ const corsOptions = {
 
 const app = express();
 
-const router = express.Router();
 
 app.use(cors(corsOptions))
 app.use(express.json())
 
-router.get("/", async(req, res) => {
+app.get("/", async(req, res) => {
     res.status(200).json('Welcome to Shonen Jump API!')
 })
 
 
-router.get("/manga", async(req, res) => {
+app.get("/manga", async(req, res) => {
     let list = []
     try {
         const type = req.query.type
