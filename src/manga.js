@@ -9,7 +9,7 @@ const latest_manga_path = 'manga_list'
 export const scrapeLatestManga = async(list, type = "latest", category = "all", state = "all", page = 1) => {
     try {
         for (let i = 1; i < page + 1; i++) {
-            const latestPage = await axios.get(`${MAIN_URL + latest_manga_path}?type=${type}&category=${category}$state=${state}&page=${page}`)
+            const latestPage = await axios.get(`${MAIN_URL + latest_manga_path}?type=${type}&category=${category}$state=${state}&page=${i}`)
             const $ = cheerio.load(latestPage.data)
 
             $('div.leftCol.listCol > div > div.list-truyen-item-wrap').each((i, el) => {
@@ -21,9 +21,8 @@ export const scrapeLatestManga = async(list, type = "latest", category = "all", 
                     views: $(el).find('div > span').text().trim()
                 })
             })
-            return list
-
         }
+        return list
     } catch (err) {
         console.log(err)
     }

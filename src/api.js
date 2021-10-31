@@ -1,6 +1,7 @@
 import express from 'express'
 import jwt from "jsonwebtoken";
 import cors from 'cors'
+import serverless from 'serverless-http'
 
 import {
     scrapeLatestManga,
@@ -18,15 +19,17 @@ const corsOptions = {
 
 const app = express();
 
+const router = express.Router();
+
 app.use(cors(corsOptions))
 app.use(express.json())
 
-app.get("/", async(req, res) => {
+router.get("/", async(req, res) => {
     res.status(200).json('Welcome to Shonen Jump API!')
 })
 
 
-app.get("/manga", async(req, res) => {
+router.get("/manga", async(req, res) => {
     let list = []
     try {
         const type = req.query.type
@@ -42,6 +45,8 @@ app.get("/manga", async(req, res) => {
     }
 })
 
+
+app.use("/.netlify/functions/api", router)
 
 app.listen(port, () => {
     console.log(
