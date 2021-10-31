@@ -12,7 +12,6 @@ export const scrapeLatestManga = async({ list, type = "latest", category = "all"
             const latestPage = await axios.get(`${MAIN_URL + latest_manga_path}?type=${type}&category=${category}$state=${state}&page=${i}`)
             const $ = cheerio.load(latestPage.data)
 
-            console.log("page: " + i + '\n')
 
             $('div.leftCol.listCol > div > div.list-truyen-item-wrap').each((i, el) => {
                 list.push({
