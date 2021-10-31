@@ -27,7 +27,7 @@ app.get("/", async(req, res) => {
 })
 
 
-app.get("/manga", async(req, res) => {
+app.get("/manga_list", async(req, res) => {
     let list = []
     try {
         const type = req.query.type
