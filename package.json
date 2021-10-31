@@ -5,6 +5,7 @@
     "main": "src/api.js",
     "type": "module",
     "scripts": {
+        "start": "node src/api.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
