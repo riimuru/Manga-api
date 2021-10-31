@@ -21,6 +21,10 @@ const app = express();
 app.use(cors(corsOptions))
 app.use(express.json())
 
+app.get("/", async(req, res) => {
+    res.status(200).json('Welcome to Shonen Jump API!')
+})
+
 
 app.get("/manga", async(req, res) => {
     let list = []
