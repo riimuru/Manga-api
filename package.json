@@ -2,12 +2,7 @@
     "name": "shonenjumpapi",
     "version": "1.0.0",
     "description": "",
-    "main": "src/api.js",
-    "type": "module",
-    "scripts": {
-        "start": "node src/api.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
+    "main": "src/api.cjs",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/riimuru/ShonenJumpApi.git"
