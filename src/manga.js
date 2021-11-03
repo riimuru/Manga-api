@@ -2,7 +2,6 @@ import axios from 'axios'
 import cheerio from 'cheerio'
 
 const MAIN_URL = 'https://mangakakalot.com/'
-
 const latest_manga_path = 'manga_list'
 
 
@@ -53,21 +52,68 @@ export const scrapeLatestManga = async({ list, type = "latest", category = "all"
 // }).then((res) => console.log(res))
 
 
-export const scrapeMangaInfo = async(url) => {
+export const scrapeMangaInfo = async(url, list) => {
+    let genresList = []
+    let authorsList = []
+    let chapterList = []
     try {
-        const main = await axios.get(url);
-        const $ = cheerio.load(main.data)
+        const infoPage = await axios.get(url);
+        const $ = cheerio.load(infoPage.data)
 
-        $('body > div.body-site > div.container-chapter-reader > img').each((i, el) => {
-            console.log({
-                img: $(el).attr('src'),
-                title: $(el).attr('title')
+        const title = $('div.story-info-right > h1').text()
+        const img = $('span.info-image > img').attr('src')
+        const alt = $('tbody > tr:nth-child(1) > td.table-value > h2').text()
+        const status = $('table > tbody > tr:nth-child(3) > td.table-value').text()
+        const updated = $('div.story-info-right > div > p:nth-child(1) > span.stre-value').text()
+        const views = $('div.story-info-right > div > p:nth-child(2) > span.stre-value').text()
+        const synopsis = $('#panel-story-info-description').text()
+
+        // authors
+        $('table > tbody > tr:nth-child(2) > td.table-value > a').each((i, el) => {
+            authorsList.push({
+                authorName: $(el).text(),
+                authorLink: $(el).attr('href')
             })
         })
+
+        // genres
+        $('table > tbody > tr:nth-child(4) > td.table-value > a').each((i, el) => {
+            genresList.push({
+                genre: $(el).text(),
+                genreLink: $(el).attr('href')
+            })
+        })
+
+        // chapters
+        $('div.panel-story-chapter-list > ul > li').each((i, el) => {
+            chapterList.push({
+                chapterTitle: $(el).find('a').text(),
+                chapterView: $(el).find('span:nth-child(1)').text(),
+                uploadedDate: $(el).find('span:nth-child(2)').text(),
+                chapterLink: $(el).find('a').attr('href')
+            })
+        })
+
+        list.push({
+            title: title,
+            img: img,
+            alt: alt,
+            authors: authorsList,
+            status: status,
+            updated: updated,
+            views: views,
+            synopsis: synopsis,
+            genres: genresList,
+            chapters: chapterList
+        })
+
+        return list
+
 
     } catch (err) {
         console.log(err)
     }
 }
 
-// scrapeMangaInfo('https://readmanganato.com/manga-dr980474/chapter-0')
+// let list = []
+// scrapeMangaInfo('https://readmanganato.com/manga-bn978870', list).then((res) => console.log(res))

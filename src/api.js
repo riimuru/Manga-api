@@ -4,6 +4,7 @@ import cors from 'cors'
 
 import {
     scrapeLatestManga,
+    scrapeMangaInfo
 } from './manga.js'
 
 
@@ -45,7 +46,26 @@ app.get("/manga_list", async(req, res) => {
         res.status(200).json(list)
 
     } catch (err) {
+        res.status(500).json({
+            Error: "Internal error."
+        })
         console.log(err)
+    }
+})
+
+app.get("/manga-info", async(req, res) => {
+    let list = []
+    try {
+        const url = req.headers['url']
+        await scrapeMangaInfo(url, list)
+        res.status(200).json(list)
+
+    } catch (err) {
+        res.status(500).json({
+            Error: "Internal error."
+        })
+        console.log(err)
+
     }
 })
 
