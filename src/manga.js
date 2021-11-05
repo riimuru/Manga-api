@@ -5,13 +5,13 @@ const MAIN_URL = 'https://mangakakalot.com/'
 const latest_manga_path = 'manga_list'
 
 
-export const scrapeLatestManga = async({ list, type = "latest", category = "all", state = "all", page = 1 }) => {
+export const scrapeLatestManga = async({ list, type = "latest", category = "all", state = "all", pages = 1 }) => {
     try {
         let data = []
         var totalStories = ''
         var totalPages = ''
         let index = 0
-        for (let i = 1; i < page + 1; i++) {
+        for (let i = 1; i < pages + 1; i++) {
             const latestPage = await axios.get(`${MAIN_URL + latest_manga_path}?type=${type}&category=${category}$state=${state}&page=${i}`)
             const $ = cheerio.load(latestPage.data)
 
@@ -48,7 +48,7 @@ export const scrapeLatestManga = async({ list, type = "latest", category = "all"
 
 // scrapeLatestManga({
 //     list: [],
-//     page: 1
+//     pages: 1
 // }).then((res) => console.log(res))
 
 
@@ -88,7 +88,7 @@ export const scrapeMangaInfo = async(url, list) => {
         $('div.panel-story-chapter-list > ul > li').each((i, el) => {
             chapterList.push({
                 chapterTitle: $(el).find('a').text(),
-                chapterView: $(el).find('span:nth-child(1)').text(),
+                chapterViews: $(el).find('span:nth-child(1)').text(),
                 uploadedDate: $(el).find('span:nth-child(2)').text(),
                 chapterLink: $(el).find('a').attr('href')
             })

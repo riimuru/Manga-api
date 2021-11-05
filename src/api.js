@@ -53,7 +53,7 @@ app.get("/manga_list", async(req, res) => {
     }
 })
 
-app.get("/manga-info", async(req, res) => {
+app.get("/manga_info", async(req, res) => {
     let list = []
     try {
         const url = req.headers['url']
