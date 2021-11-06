@@ -3,6 +3,7 @@ import cheerio from 'cheerio'
 
 const MAIN_URL = 'https://mangakakalot.com/'
 const latest_manga_path = 'manga_list'
+const search_path = 'search/story/'
 
 
 export const scrapeLatestManga = async({ list, type = "latest", category = "all", state = "all", pages = 1 }) => {
@@ -100,7 +101,7 @@ export const scrapeMangaInfo = async(url, list) => {
             alt: alt,
             authors: authorsList,
             status: status,
-            updated: updated,
+            lastUpdated: updated,
             views: views,
             synopsis: synopsis,
             genres: genresList,
@@ -117,3 +118,50 @@ export const scrapeMangaInfo = async(url, list) => {
 
 // let list = []
 // scrapeMangaInfo('https://readmanganato.com/manga-bn978870', list).then((res) => console.log(res))
+
+
+export const scrapeSearchQuery = async({ searchInfo, query, pages = 1 }) => {
+    let latestChapters = []
+    let list = []
+    try {
+        const searchPage = await axios.get(MAIN_URL + search_path + query)
+        const $ = cheerio.load(searchPage.data)
+
+
+        const totalStoriesFound = $("div.panel_page_number > div.group_qty > a").text()
+        const totalPages = $("div.group_page > a.page_blue.page_last").text().replace('Last', '').replace(/\(|\)/g, '')
+
+        $('div.leftCol > div.daily-update > div > div').each((i, el) => {
+            $(el).find('div > em.story_chapter').each((i, ell) => {
+                    latestChapters.push({
+                        chapterTitle: $(ell).find('a').text().trim(),
+                        chapterLink: $(ell).find('a').attr('href')
+                    })
+                }),
+                list.push({
+                    title: $(el).find('h3 > a').text(),
+                    authors: $(el).find('div > span:nth-child(4)').text().trim(),
+                    lastUpdated: $(el).find('div > span:nth-child(5)').text().trim(),
+                    views: $(el).find('div > span:nth-child(6)').text().trim(),
+                    img: $(el).find('a > img').attr('src'),
+                    src: $(el).find('div > h3 > a').attr('href'),
+                    latestChapters: latestChapters
+                })
+            latestChapters = []
+        })
+        searchInfo.push({
+            query: query,
+            totalStoriesFound: totalStoriesFound,
+            totalPages: totalPages,
+            data: list
+        })
+
+        return searchInfo
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+// let list = []
+// scrapeSearchQuery(list, "solo").then((res) => console.log(res))
