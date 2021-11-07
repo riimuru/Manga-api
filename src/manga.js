@@ -159,13 +159,16 @@ export const scrapeSearchQuery = async({ searchInfo, query, s = "all", sts = "&s
 
         $('div.container.container-main > div.panel-content-genres > div').each((i, el) => {
             list.push({
-                title: $(el).find('h3 > a').text(),
-                authors: $(el).find('div > span:nth-child(4)').text().trim(),
-                lastUpdated: $(el).find('div > span:nth-child(5)').text().trim(),
-                views: $(el).find('div > span:nth-child(6)').text().trim(),
+                index: index,
+                title: $(el).find('div > h3 > a').text().trim(),
+                chapter: $(el).find('div > a.genres-item-chap.text-nowrap.a-h').text().trim(),
                 img: $(el).find('a > img').attr('src'),
-                src: $(el).find('div > h3 > a').attr('href'),
-                rating: $(el).find('a > em.genres-item-rate').text()
+                src: $(el).find('a').attr('href'),
+                synopsis: $(el).find('div:nth-child(1) > div > div').text().replace('More.', '').replace(/\n/g, '').trim(),
+                views: $(el).find('div > p > span.genres-item-view').text().trim(),
+                uploadedDate: $(el).find(`div > p > span.genres-item-time`).text().trim(),
+                authors: $(el).find(`div > p > span.genres-item-author`).text().trim(),
+                rating: $(el).find('a > em').text().trim(),
             })
         })
         searchInfo.push({
