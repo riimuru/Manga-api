@@ -92,7 +92,7 @@ export const scrapeMangaInfo = async(url, list) => {
         const status = $('table > tbody > tr:nth-child(3) > td.table-value').text()
         const updated = $('div.story-info-right > div > p:nth-child(1) > span.stre-value').text()
         const views = $('div.story-info-right > div > p:nth-child(2) > span.stre-value').text()
-        const synopsis = $('#panel-story-info-description').text()
+        const synopsis = $('#panel-story-info-description').text().replace("Description :", "").replace(/\n/g, '').trim()
         const rating = $('#rate_row_cmd > em > em:nth-child(2) > em > em:nth-child(1)').text()
         const totalVotes = $('#rate_row_cmd > em > em:nth-child(3)').text()
 
