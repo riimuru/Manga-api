@@ -6,6 +6,25 @@ const latest_manga_path = 'manga_list'
 const search_path = 'search/story/'
 
 
+function extractHostname(url) {
+    var hostname;
+    //find & remove protocol (http, ftp, etc.) and get hostname
+
+    if (url.indexOf("//") > -1) {
+        hostname = url.split('/')[2];
+    } else {
+        hostname = url.split('/')[0];
+    }
+
+    //find & remove port number
+    hostname = hostname.split(':')[0];
+    //find & remove "?"
+    hostname = hostname.split('?')[0];
+
+    return hostname;
+}
+
+
 export const scrapeLatestManga = async({ list, type = "latest", category = "all", state = "all", pages = 1 }) => {
     try {
         let data = []
@@ -58,57 +77,115 @@ export const scrapeMangaInfo = async(url, list) => {
     let authorsList = []
     let chapterList = []
     try {
-        const infoPage = await axios.get(url);
-        const $ = cheerio.load(infoPage.data)
+        if (extractHostname(url) == "readmanganato.com") {
+            const infoPage = await axios.get(url);
+            const $ = cheerio.load(infoPage.data)
 
-        const title = $('div.story-info-right > h1').text()
-        const img = $('span.info-image > img').attr('src')
-        const alt = $('tbody > tr:nth-child(1) > td.table-value > h2').text()
-        const status = $('table > tbody > tr:nth-child(3) > td.table-value').text()
-        const updated = $('div.story-info-right > div > p:nth-child(1) > span.stre-value').text()
-        const views = $('div.story-info-right > div > p:nth-child(2) > span.stre-value').text()
-        const synopsis = $('#panel-story-info-description').text()
+            const title = $('div.story-info-right > h1').text()
+            const img = $('span.info-image > img').attr('src')
+            const alt = $('tbody > tr:nth-child(1) > td.table-value > h2').text()
+            const status = $('table > tbody > tr:nth-child(3) > td.table-value').text()
+            const updated = $('div.story-info-right > div > p:nth-child(1) > span.stre-value').text()
+            const views = $('div.story-info-right > div > p:nth-child(2) > span.stre-value').text()
+            const synopsis = $('#panel-story-info-description').text()
 
-        // authors
-        $('table > tbody > tr:nth-child(2) > td.table-value > a').each((i, el) => {
-            authorsList.push({
-                authorName: $(el).text(),
-                authorLink: $(el).attr('href')
+            // authors
+            $('table > tbody > tr:nth-child(2) > td.table-value > a').each((i, el) => {
+                authorsList.push({
+                    authorName: $(el).text(),
+                    authorLink: $(el).attr('href')
+                })
             })
-        })
 
-        // genres
-        $('table > tbody > tr:nth-child(4) > td.table-value > a').each((i, el) => {
-            genresList.push({
-                genre: $(el).text(),
-                genreLink: $(el).attr('href')
+            // genres
+            $('table > tbody > tr:nth-child(4) > td.table-value > a').each((i, el) => {
+                genresList.push({
+                    genre: $(el).text(),
+                    genreLink: $(el).attr('href')
+                })
             })
-        })
 
-        // chapters
-        $('div.panel-story-chapter-list > ul > li').each((i, el) => {
-            chapterList.push({
-                chapterTitle: $(el).find('a').text(),
-                chapterViews: $(el).find('span:nth-child(1)').text(),
-                uploadedDate: $(el).find('span:nth-child(2)').text(),
-                chapterLink: $(el).find('a').attr('href')
+            // chapters
+            $('div.panel-story-chapter-list > ul > li').each((i, el) => {
+                chapterList.push({
+                    chapterTitle: $(el).find('a').text(),
+                    chapterViews: $(el).find('span:nth-child(1)').text(),
+                    uploadedDate: $(el).find('span:nth-child(2)').text(),
+                    chapterLink: $(el).find('a').attr('href')
+                })
             })
-        })
 
-        list.push({
-            title: title,
-            img: img,
-            alt: alt,
-            authors: authorsList,
-            status: status,
-            lastUpdated: updated,
-            views: views,
-            synopsis: synopsis,
-            genres: genresList,
-            chapters: chapterList
-        })
+            list.push({
+                title: title,
+                img: img,
+                alt: alt,
+                authors: authorsList,
+                status: status,
+                lastUpdated: updated,
+                views: views,
+                synopsis: synopsis,
+                genres: genresList,
+                chapters: chapterList
+            })
 
-        return list
+            return list
+
+        } else {
+            const infoPage = await axios.get(url);
+            const $ = cheerio.load(infoPage.data)
+
+            const title = $('div.manga-info-top > ul > li:nth-child(1) > h1').text()
+            const img = $('div.manga-info-top > div > img').attr('src')
+            const alt = $('div.manga-info-top > ul > li:nth-child(1) > h2').text()
+            const status = $('div.manga-info-top > ul > li:nth-child(3)').text()
+            const updated = $('div.manga-info-top > ul > li:nth-child(4)').text()
+            const views = $('div.manga-info-top > ul > li:nth-child(6)').text()
+            const synopsis = $('#noidungm').text()
+
+            // authors
+            $('div.manga-info-top > ul > li:nth-child(2) > a').each((i, el) => {
+                authorsList.push({
+                    authorName: $(el).text(),
+                    authorLink: $(el).attr('href')
+                })
+            })
+
+            // genres
+            $('div.manga-info-top > ul > li:nth-child(7) > a').each((i, el) => {
+                genresList.push({
+                    genre: $(el).text(),
+                    genreLink: $(el).attr('href')
+                })
+            })
+
+            // chapters
+            $('#chapter > div > div.chapter-list > div').each((i, el) => {
+                chapterList.push({
+                    chapterTitle: $(el).find('span:nth-child(1) > a').text(),
+                    chapterViews: $(el).find('span:nth-child(2)').text(),
+                    uploadedDate: $(el).find('span:nth-child(3)').text().trim(),
+                    chapterLink: $(el).find('span:nth-child(1) > a').attr('href')
+                })
+            })
+
+            list.push({
+                title: title,
+                img: img,
+                alt: alt,
+                authors: authorsList,
+                status: status,
+                lastUpdated: updated,
+                views: views,
+                synopsis: synopsis,
+                genres: genresList,
+                chapters: chapterList
+            })
+
+            return list
+
+        }
+
+
 
 
     } catch (err) {
@@ -116,8 +193,8 @@ export const scrapeMangaInfo = async(url, list) => {
     }
 }
 
-// let list = []
-// scrapeMangaInfo('https://readmanganato.com/manga-bn978870', list).then((res) => console.log(res))
+let list = []
+scrapeMangaInfo('https://mangakakalot.com/manga/four_daughters_of_armian', list).then((res) => console.log(res))
 
 
 export const scrapeSearchQuery = async({ searchInfo, query, pages = 1 }) => {
