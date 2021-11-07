@@ -50,7 +50,7 @@ export const scrapeLatestManga = async({ list, s = "all", sts = "", orby = "", p
                     chapter: $(el).find('div > a.genres-item-chap.text-nowrap.a-h').text().trim(),
                     img: $(el).find('a > img').attr('src'),
                     src: $(el).find('a').attr('href'),
-                    synopsis: $(el).find('div > div').text().replace('More.', '').replace(/\n/g, '').trim(),
+                    synopsis: $(el).find('div:nth-child(1) > div > div').text().replace('More.', '').replace(/\n/g, '').trim(),
                     views: $(el).find('div > p > span.genres-item-view').text().trim(),
                     uploadedDate: $(el).find(`div > p > span.genres-item-time`).text().trim(),
                     authors: $(el).find(`div > p > span.genres-item-author`).text().trim(),
