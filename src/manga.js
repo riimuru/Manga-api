@@ -28,14 +28,14 @@ function extractHostname(url) {
  * @returns {{}}
  */
 
-export const scrapeLatestManga = async({ list, s = "all", sts = "&sts=", orby = "&orby=", pages = 1 }) => {
+export const scrapeLatestManga = async({ list, s = "all", sts = "", orby = "", pages = 1 }) => {
     try {
         let data = []
         var totalStories = ''
         var totalPages = ''
         let index = 0
         for (let i = 1; i < pages + 1; i++) {
-            const latestPage = await axios.get(`${MAIN_URL + manga_search_path}?s=${s}${sts}${orby}&page=${i}`)
+            const latestPage = await axios.get(`${MAIN_URL + manga_search_path}?s=${s}&sts=${sts}&orby=${orby}&page=${i}`)
             const $ = cheerio.load(latestPage.data)
 
             if (i == 1) {
