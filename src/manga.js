@@ -159,7 +159,6 @@ export const scrapeSearchQuery = async({ searchInfo, query, s = "all", sts = "&s
 
         $('div.container.container-main > div.panel-content-genres > div').each((i, el) => {
             list.push({
-                index: index,
                 title: $(el).find('div > h3 > a').text().trim(),
                 chapter: $(el).find('div > a.genres-item-chap.text-nowrap.a-h').text().trim(),
                 img: $(el).find('a > img').attr('src'),
