@@ -74,6 +74,9 @@ app.get("/manga_search", async(req, res) => {
     let list = []
     try {
         const query = req.query.find
+        const category = req.query.s
+        const status = req.query.sts
+        const orderBy = req.query.orby
         await scrapeSearchQuery({
             searchInfo: list,
             query: query,
