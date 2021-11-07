@@ -32,17 +32,17 @@ app.get("/", async(req, res) => {
 app.get("/manga_list", async(req, res) => {
     let list = []
     try {
-        const type = req.query.type
-        const category = req.query.category
-        const state = req.query.state
-        const page = req.query.page
+        const s = req.query.s
+        const sts = req.query.sts
+        const orby = req.query.orby
+        const pages = req.query.page
 
         await scrapeLatestManga({
             list: list,
-            type: type,
-            category: category,
-            state: state,
-            page: page
+            s: s,
+            sts: sts,
+            orby: orby,
+            pages: pages
         })
         res.status(200).json(list)
 
@@ -74,12 +74,16 @@ app.get("/manga_search", async(req, res) => {
     let list = []
     try {
         const query = req.query.find
-        const category = req.query.s
-        const status = req.query.sts
+        const s = req.query.s
+        const sts = req.query.sts
         const orderBy = req.query.orby
         await scrapeSearchQuery({
             searchInfo: list,
             query: query,
+            s: s,
+            sts: sts,
+            orby: orderBy
+
         })
         res.status(200).json(list)
 
