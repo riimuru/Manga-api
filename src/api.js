@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import cors from 'cors'
 
 import {
+    scrapeChapter,
     scrapeLatestManga,
     scrapeMangaInfo,
     scrapeSearchQuery
@@ -86,6 +87,20 @@ app.get("/manga_search", async(req, res) => {
         })
         res.status(200).json(list)
 
+    } catch (err) {
+        res.status(500).json({
+            Error: "Internal error."
+        })
+        console.log(err)
+    }
+})
+
+app.get('/read_manga', async(req, res) => {
+    let list = []
+    try {
+        const url = req.headers['url']
+        await scrapeChapter(list, url)
+        res.status(200).json(list)
     } catch (err) {
         res.status(500).json({
             Error: "Internal error."

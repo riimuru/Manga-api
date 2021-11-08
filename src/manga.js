@@ -183,3 +183,26 @@ export const scrapeSearchQuery = async({ searchInfo, query, s = "all", sts = "&s
 }
 
 // scrapeSearchQuery({ searchInfo: [], query: "solo leveling", }).then((res) => console.log(res))
+
+
+export const scrapeChapter = async(list, url) => {
+    try {
+        const chapterPage = await axios.get(url)
+        const $ = cheerio.load(chapterPage.data);
+
+        $('body > div.body-site > div.container-chapter-reader > img').each((i, el) => {
+            list.push({
+                img: $(el).attr('src'),
+                pageTitle: $(el).attr('title').replace(' - MangaNato.com', '').trim()
+            })
+        })
+
+        return list
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+// let list = []
+// scrapeChapter(list, "https://readmanganato.com/manga-mo989871/chapter-20").then((res) => console.log(res))
