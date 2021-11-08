@@ -149,10 +149,10 @@ export const scrapeMangaInfo = async(url, list) => {
 // scrapeMangaInfo('https://readmanganato.com/manga-ax951880', list).then((res) => console.log(res))
 
 
-export const scrapeSearchQuery = async({ searchInfo, query, s = "all", sts = "&sts=", orby = "&orby=", pages = 1 }) => {
+export const scrapeSearchQuery = async({ searchInfo, query, s = "all", sts = "", orby = "", pages = 1 }) => {
     let list = []
     try {
-        const searchPage = await axios.get(`${MAIN_URL + manga_search_path}?s=${s}${sts}${orby}&keyw=${query.replace(/\s/g, '_')}`)
+        const searchPage = await axios.get(`${MAIN_URL + manga_search_path}?s=${s}&sts=${sts}&orby=${orby}&keyw=${query.replace(/\s/g, '_')}`)
         const $ = cheerio.load(searchPage.data)
 
 
