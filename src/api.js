@@ -83,7 +83,6 @@ app.get("/manga_search", async(req, res) => {
             s: s,
             sts: sts,
             orby: orderBy
-
         })
         res.status(200).json(list)
 

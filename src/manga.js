@@ -25,7 +25,7 @@ function extractHostname(url) {
 /**
  * 
  * @param {*} list 
- * @returns {{}}
+ * @returns {Promise}
  */
 
 export const scrapeLatestManga = async({ list, s = "all", sts = "", orby = "", pages = 1 }) => {
@@ -116,8 +116,8 @@ export const scrapeMangaInfo = async(url, list) => {
         $('div.panel-story-chapter-list > ul > li').each((i, el) => {
             chapterList.push({
                 chapterTitle: $(el).find('a').text(),
-                chapterViews: $(el).find('span:nth-child(1)').text(),
-                uploadedDate: $(el).find('span:nth-child(2)').text(),
+                chapterViews: $(el).find('span.chapter-view.text-nowrap').text(),
+                uploadedDate: $(el).find('span.chapter-time.text-nowrap').text(),
                 chapterLink: $(el).find('a').attr('href')
             })
         })
