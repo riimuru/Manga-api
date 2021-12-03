@@ -69,7 +69,7 @@ npm start
 
 #### Query parameters
 
-Parameters can be used to query, filter and control the results returned by the Mangato API. They can be passed as normal URI parameters or as JSON in the body of the request.
+Parameters can be used to query, filter and control the results returned by the Mangato API. They can be passed as normal query parameters.
 
 | parameter          | description                                                                                                                                                                                                                                                       |
 | :----------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
