@@ -1,28 +1,30 @@
 {
-    "name": "shonenjumpapi",
+    "name": "mangato-api",
     "version": "1.0.0",
-    "description": "",
+    "description": "Manga api built with Express",
     "main": "src/api.js",
     "type": "module",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/riimuru/ShonenJumpApi.git"
+        "url": "git+https://github.com/riimuru/Mangato-api.git"
     },
     "engines": {
         "node": "16.10.0"
     },
     "author": "",
     "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/riimuru/ShonenJumpApi/issues"
+    "scripts": {
+        "start": "node src/api.js"
     },
-    "homepage": "https://github.com/riimuru/ShonenJumpApi#readme",
+    "bugs": {
+        "url": "https://github.com/riimuru/Mangato-api/issues"
+    },
+    "homepage": "https://github.com/riimuru/Mangato-api#readme",
     "dependencies": {
         "axios": "^0.24.0",
         "cheerio": "^1.0.0-rc.10",
         "cors": "^2.8.5",
-        "express": "^4.17.1",
-        "jsonwebtoken": "^8.5.1"
+        "express": "^4.17.1"
     },
     "devDependencies": {
         "nodemon": "^2.0.7"

@@ -23,42 +23,40 @@ function extractHostname(url) {
     return hostname;
 }
 /**
- * 
- * @param {*} list 
  * @returns {Promise}
  */
 
-export const scrapeLatestManga = async({ list, s = "all", sts = "", orby = "", pages = 1 }) => {
+export const scrapeManga = async({ list = [], sts = "", orby = "", inGenre = "", exGenre = "", keyw = "", page = 1 }) => {
     try {
         let data = []
         var totalStories = ''
         var totalPages = ''
         let index = 0
-        for (let i = 1; i < pages + 1; i++) {
-            const latestPage = await axios.get(`${MAIN_URL + manga_search_path}?s=${s}&sts=${sts}&orby=${orby}&page=${i}`)
-            const $ = cheerio.load(latestPage.data)
 
-            if (i == 1) {
-                totalStories = $('div.panel_page_number > div.group_qty > a').text()
-                totalPages = $('div.group_page > a.page_blue.page_last').text().replace('Last', '').replace(/\(|\)/g, '')
-            }
+        const latestPage = await axios.get(`${MAIN_URL + manga_search_path}?s=all&sts=${sts}&g_i${inGenre}&g_e${exGenre}&keyw=${keyw.replace(/\s/g, '_')}&orby=${orby}&page=${page}`)
+        const $ = cheerio.load(latestPage.data)
 
-            $('div.container.container-main > div.panel-content-genres > div').each((i, el) => {
-                data.push({
-                    index: index,
-                    title: $(el).find('div > h3 > a').text().trim(),
-                    chapter: $(el).find('div > a.genres-item-chap.text-nowrap.a-h').text().trim(),
-                    img: $(el).find('a > img').attr('src'),
-                    src: $(el).find('a').attr('href'),
-                    synopsis: $(el).find('div > div.genres-item-description').text().replace('More.', '').replace(/\n/g, '').trim(),
-                    views: $(el).find('div > p > span.genres-item-view').text().trim(),
-                    uploadedDate: $(el).find(`div > p > span.genres-item-time`).text().trim(),
-                    authors: $(el).find(`div > p > span.genres-item-author`).text().trim(),
-                    rating: $(el).find('a > em').text().trim(),
-                })
-                index++
+
+        totalStories = $('div.panel-page-number > div.group-qty > a').text().split(" : ")[1]
+        totalPages = $('div.panel-page-number > div.group-page').children('a').last().text().replace('LAST', '').replace(/\(|\)/g, '')
+
+
+        $('div.container.container-main > div.panel-content-genres > div').each((i, el) => {
+            data.push({
+                index: index,
+                title: $(el).find('div > h3 > a').text().trim(),
+                chapter: $(el).find('div > a.genres-item-chap.text-nowrap.a-h').text().trim(),
+                img: $(el).find('a > img').attr('src'),
+                src: $(el).find('a').attr('href'),
+                synopsis: $(el).find('div > div.genres-item-description').text().replace('More.', '').replace(/\n/g, '').trim(),
+                views: $(el).find('div > p > span.genres-item-view').text().trim(),
+                uploadedDate: $(el).find(`div > p > span.genres-item-time`).text().trim(),
+                authors: $(el).find(`div > p > span.genres-item-author`).text().trim(),
+                rating: $(el).find('a > em').text().trim(),
             })
-        }
+            index++
+        })
+
         list.push({
             info: {
                 totalStories: totalStories,
@@ -148,7 +146,7 @@ export const scrapeMangaInfo = async(url, list) => {
 // let list = []
 // scrapeMangaInfo('https://readmanganato.com/manga-ax951880', list).then((res) => console.log(res))
 
-
+// TODO: delete this function
 export const scrapeSearchQuery = async({ searchInfo, query, s = "all", sts = "", orby = "", pages = 1 }) => {
     let list = []
     try {

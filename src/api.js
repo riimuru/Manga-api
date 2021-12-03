@@ -1,13 +1,12 @@
 import express from 'express'
-import jwt from "jsonwebtoken";
 import cors from 'cors'
 
 import {
     scrapeChapter,
-    scrapeLatestManga,
+    scrapeManga,
     scrapeMangaInfo,
     scrapeSearchQuery
-} from './manga.js'
+} from './manga_parser.js'
 
 
 const port = process.env.PORT || 3000;
@@ -26,24 +25,28 @@ app.use(cors(corsOptions))
 app.use(express.json())
 
 app.get("/", async(req, res) => {
-    res.status(200).json('Welcome to Shonen Jump API!')
+    res.status(200).json('Welcome to Mangato API!')
 })
 
 
 app.get("/manga_list", async(req, res) => {
     let list = []
     try {
-        const s = req.query.s
         const sts = req.query.sts
         const orby = req.query.orby
-        const pages = req.query.page
+        const page = req.query.page
+        const inGenre = req.query.inGenre
+        const exGenre = req.query.exGenre
+        const keyw = req.query.keyw
 
-        await scrapeLatestManga({
+        await scrapeManga({
             list: list,
-            s: s,
             sts: sts,
             orby: orby,
-            pages: pages
+            inGenre: inGenre,
+            exGenre: exGenre,
+            keyw: keyw,
+            page: page,
         })
         res.status(200).json(list)
 
@@ -108,6 +111,15 @@ app.get('/read_manga', async(req, res) => {
         console.log(err)
     }
 })
+
+
+app.use((req, res, next) => {
+    res.status(404).send({
+        status: 404,
+        error: "Not Found"
+    })
+})
+
 
 app.listen(port, () => {
     console.log(
