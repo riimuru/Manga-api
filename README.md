@@ -203,7 +203,7 @@ Response body:
 ]
 ```
 
-response is empty because one piece didnt finish yet :).
+response is empty because one piece is not completed yet :).
 
 ## Contributing
 
