@@ -127,7 +127,7 @@ Every genre have a specific value which you can put in your Get Request query. t
 | Yaoi          | 41    |
 | Yuri          | 42    |
 
-## Request & Respose Examples
+## Request & Response Examples
 
 ### GET /manga_list`?sts=ongoing`
 
