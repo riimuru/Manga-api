@@ -12,7 +12,7 @@ This api is based on [manganato](https://manganato.com/) manga reading api to gi
 
 **[Getting Started](#getting-started)**<br>
 **[Api Walkthrough](#api-walkthrough)**<br>
-**[Requests & API Examples](#requests-&-api-examples)**<br>
+**[Request & Response Examples](#request-&-response-examples)**<br>
 
 ## Getting Started
 
