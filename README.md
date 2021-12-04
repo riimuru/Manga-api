@@ -131,7 +131,7 @@ Every genre have a specific value which you can put in your Get Request query. t
 
 #### Query Parameters & Headers
 
-manga id, host name, url can be accessed by making `GET /manga_list` request. [see examples below](#request--response-examples)
+manga id, host name, url can be accessed by making `GET /manga_list` request. [see examples below](#get-manga_list-1)
 
 | Parameter            | Description             |
 | :------------------- | :---------------------- |
@@ -146,7 +146,7 @@ manga id, host name, url can be accessed by making `GET /manga_list` request. [s
 
 #### Query Parameters & Headers
 
-chapter url can be accessed by making `GET /read_manga` request. [see exmaples below](#request--response-examples)
+chapter url can be accessed by making `GET /manga_info` request. [see exmaples below](#get-manga_info-1)
 
 | Header         | Description |
 | :------------- | :---------- |
@@ -252,7 +252,7 @@ response is empty because one piece is not completed yet :).
 
 #### Example 1:
 
-"id" parameter and "host-name" header can be seen in the above body response examples.
+"id" parameter and "host-name" header can be found in `GET /manga_list` response body as seen in the above sample.
 
 Example:
 
