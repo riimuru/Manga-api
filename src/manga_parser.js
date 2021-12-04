@@ -1,7 +1,8 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
 
-const MAIN_URL = ' https://manganato.com/'
+const MAIN_URL = 'https://manganato.com/'
+const BASE_URL = 'https://readmanganato.com/'
 const manga_search_path = 'advanced_search'
 
 
@@ -31,7 +32,6 @@ export const scrapeManga = async({ list = [], sts = "", orby = "", inGenre = "",
         let data = []
         var totalStories = ''
         var totalPages = ''
-        let index = 0
 
         const latestPage = await axios.get(`${MAIN_URL + manga_search_path}?s=all&sts=${sts}&g_i${inGenre}&g_e${exGenre}&keyw=${keyw.replace(/\s/g, '_')}&orby=${orby}&page=${page}`)
         const $ = cheerio.load(latestPage.data)
@@ -43,10 +43,12 @@ export const scrapeManga = async({ list = [], sts = "", orby = "", inGenre = "",
 
         $('div.container.container-main > div.panel-content-genres > div').each((i, el) => {
             data.push({
-                index: index,
+                index: i,
+                id: $(el).find('a').attr('href').split('/')[3],
                 title: $(el).find('div > h3 > a').text().trim(),
                 chapter: $(el).find('div > a.genres-item-chap.text-nowrap.a-h').text().trim(),
                 img: $(el).find('a > img').attr('src'),
+                host_name: extractHostname($(el).find('a').attr('href')),
                 src: $(el).find('a').attr('href'),
                 synopsis: $(el).find('div > div.genres-item-description').text().replace('More.', '').replace(/\n/g, '').trim(),
                 views: $(el).find('div > p > span.genres-item-view').text().trim(),
@@ -54,11 +56,16 @@ export const scrapeManga = async({ list = [], sts = "", orby = "", inGenre = "",
                 authors: $(el).find(`div > p > span.genres-item-author`).text().trim(),
                 rating: $(el).find('a > em').text().trim(),
             })
-            index++
         })
 
         list.push({
             info: {
+                keyword: keyw,
+                filter_status: sts,
+                included_genres: inGenre,
+                excluded_genres: exGenre,
+                order_by: orby,
+                current_page: parseInt(page),
                 totalStories: totalStories,
                 totalPages: totalPages
             },
@@ -76,11 +83,21 @@ export const scrapeManga = async({ list = [], sts = "", orby = "", inGenre = "",
 // }).then((res) => console.log(res))
 
 
-export const scrapeMangaInfo = async(url, list) => {
+export const scrapeMangaInfo = async({ list = [], src, id, hostName }) => {
     let genresList = []
     let authorsList = []
     let chapterList = []
     try {
+        let url = ''
+
+        if (typeof src !== 'undefined' || typeof id !== 'undefined') {
+            if (typeof src !== 'undefined') {
+                url = src
+            } else {
+                url = "https://" + hostName + "/" + id
+            }
+        }
+
         const infoPage = await axios.get(url);
         const $ = cheerio.load(infoPage.data)
 
@@ -140,6 +157,7 @@ export const scrapeMangaInfo = async(url, list) => {
 
     } catch (err) {
         console.log(err)
+        return 'Invalid src or id.'
     }
 }
 
@@ -183,9 +201,9 @@ export const scrapeSearchQuery = async({ searchInfo, query, s = "all", sts = "",
 // scrapeSearchQuery({ searchInfo: [], query: "solo leveling", }).then((res) => console.log(res))
 
 
-export const scrapeChapter = async(list, url) => {
+export const scrapeChapter = async({ list = [], chapterUrl }) => {
     try {
-        const chapterPage = await axios.get(url)
+        const chapterPage = await axios.get(chapterUrl)
         const $ = cheerio.load(chapterPage.data);
 
         $('body > div.body-site > div.container-chapter-reader > img').each((i, el) => {

@@ -52,7 +52,8 @@ app.get("/manga_list", async(req, res) => {
 
     } catch (err) {
         res.status(500).json({
-            Error: "Internal error."
+            status: 500,
+            error: "Internal error."
         })
         console.log(err)
     }
@@ -62,15 +63,41 @@ app.get("/manga_info", async(req, res) => {
     let list = []
     try {
         const url = req.headers['url']
-        await scrapeMangaInfo(url, list)
+        const id = req.query.id
+        const hostName = req.headers['host-name']
+
+        var result = await scrapeMangaInfo({ list: list, src: url, id: id, hostName: hostName })
+        if (typeof result !== 'object') {
+            return res.status(400).json({
+                status: 400,
+                error: "Bad Request."
+            })
+        }
+
         res.status(200).json(list)
 
     } catch (err) {
         res.status(500).json({
-            Error: "Internal error."
+            status: 500,
+            error: "Internal error."
         })
         console.log(err)
 
+    }
+})
+
+app.get('/read_manga', async(req, res) => {
+    let list = []
+    try {
+        const chapterUrl = req.headers['url']
+        await scrapeChapter({ list: list, chapterUrl: chapterUrl })
+        res.status(200).json(list)
+    } catch (err) {
+        res.status(500).json({
+            status: 500,
+            error: "Internal error."
+        })
+        console.log(err)
     }
 })
 
@@ -92,21 +119,8 @@ app.get("/manga_search", async(req, res) => {
 
     } catch (err) {
         res.status(500).json({
-            Error: "Internal error."
-        })
-        console.log(err)
-    }
-})
-
-app.get('/read_manga', async(req, res) => {
-    let list = []
-    try {
-        const url = req.headers['url']
-        await scrapeChapter(list, url)
-        res.status(200).json(list)
-    } catch (err) {
-        res.status(500).json({
-            Error: "Internal error."
+            status: 500,
+            error: "Internal error."
         })
         console.log(err)
     }

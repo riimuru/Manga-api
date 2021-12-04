@@ -36,7 +36,7 @@ npm start
 
 ## API Walkthrough
 
-### Common formats
+### Common Formats
 
 #### List / Panigation
 
@@ -65,20 +65,20 @@ npm start
 }
 ```
 
-### Get manga list
+### GET /manga_list
 
-#### Query parameters
+#### Query Parameters & Headers
 
 Parameters can be used to query, filter and control the results returned by the Mangato API. They can be passed as normal query parameters.
 
-| parameter          | description                                                                                                                                                                                                                                                       |
-| :----------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sts` (string)     | filter results by status. default: `Ongoing and Complete`                                                                                                                                                                                                         |
-| `orby` (string)    | filter results by `Latest updates, top view, new manga, A-Z`. default: `Latest updates`                                                                                                                                                                           |
+| Parameter          | Description                                                                                                                                                                                                                                                    |
+| :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sts` (string)     | filter results by status. default: `Ongoing and Complete`                                                                                                                                                                                                      |
+| `orby` (string)    | filter results by `Latest updates, top view, new manga, A-Z`. default: `Latest updates`                                                                                                                                                                        |
 | `inGenre` (string) | filter results by genres. all genres are included by default. for example: If you include Historical , it will filter only mangas with Historical genre. (You can include multiple genres). for example: `inGenre=_15_` **NOTE: Genres list available below.** |
 | `exGenre` (string) | If you include Comedy, Romance but exclude Ecchi, it will filter all mangas with Comedy and Romance but Ecchi. for example: `inGenre=_6_27_&exGenre=_11_` **NOTE: Genres list available below.**                                                               |
-| `keyw` (string)    | filter results by manga name. for example: `keyw=one piece`                                                                                                                                                                                                       |
-| `page` (int)       | by default page starts from 1.                                                                                                                                                                                                                                    |
+| `keyw` (string)    | filter results by manga name. for example: `keyw=one piece`                                                                                                                                                                                                    |
+| `page` (int)       | by default page starts from 1. pages limit may vary                                                                                                                                                                                                            |
 
 #### Genres
 
@@ -127,9 +127,36 @@ Every genre have a specific value which you can put in your Get Request query. t
 | Yaoi          | 41    |
 | Yuri          | 42    |
 
+### GET /manga_info
+
+#### Query Parameters & Headers
+
+manga id, host name, url can be accessed by making `GET /manga_list` request. [see examples below](#request--response-examples)
+
+| Parameter            | Description             |
+| :------------------- | :---------------------- |
+| `id` (string)        | manga id                |
+| `host-name` (string) | manga website host name |
+
+| Header         | Description |
+| :------------- | :---------- |
+| `url` (string) | manga url   |
+
+### GET /read_manga
+
+#### Query Parameters & Headers
+
+chapter url can be accessed by making `GET /read_manga` request. [see exmaples below](#request--response-examples)
+
+| Header         | Description |
+| :------------- | :---------- |
+| `url` (string) | chapter url |
+
 ## Request & Response Examples
 
-### GET /manga_list`?sts=ongoing`
+### GET /manga_list
+
+#### Example 1:
 
 This query will filter result by status only.
 
@@ -145,33 +172,43 @@ Response body:
 [
     {
         "info": {
+            "keyword": "",
+            "filter_status": "ongoing",
+            "included_genres": "",
+            "excluded_genres": "",
+            "order_by": "",
+            "current_page": 1,
             "totalStories": "20,846",
             "totalPages": "869"
         },
         "data": [
             {
                 "index": 0,
-                "title": "Slave Of The Magic Capital's Elite Troops",
-                "chapter": "Chapter 74: Slave And Kuusetsu",
-                "img": "https://avt.mkklcdnv6temp.com/38/m/17-1583496651.jpg",
-                "src": "https://readmanganato.com/manga-dp980698",
-                "synopsis": "This battle fantasy manga follows several heroines who protect people from the monsters that appear through a gate connecting to an alternate world known as the Mato (magic capital).",
-                "views": "30,936,143",
+                "id": "manga-jn987096",
+                "title": "Hell Mode: Yarikomi Suki No Gamer Wa Hai Settei No Isekai De Musou Suru",
+                "chapter": "Chapter 14: Talent",
+                "img": "https://avt.mkklcdnv6temp.com/33/n/22-1604080648.jpg",
+                "host": "manganato.com",
+                "src": "https://manganato.com/manga-jn987096",
+                "synopsis": "\"Will you be summoned to the world of a never-ending game?\" One day, I was looking for a new game, when I suddenly saw that ad. After choosing the most difficult mode of the game, \"hell mode\", I was suddenly reincarnated into a new world as a farmhand.  As a boy named Allen, I started my journey in another world with the highest difficulty, overcoming all challenges to ach",
+                "views": "6,330,209",
                 "uploadedDate": "Dec 04,21",
-                "authors": "Takahiro, Youhei Takemura",
-                "rating": "4.7"
+                "authors": "Tetta Enji,Hamuo",
+                "rating": "4.8"
             },
             {
                 "index": 1,
-                "title": "Mofumofu To Isekai Slow Life O Mezashimasu!",
-                "chapter": "Chapter 29: The Journey Of Young Orst",
-                "img": "https://avt.mkklcdnv6temp.com/39/e/18-1583498616.jpg",
-                "src": "https://manganato.com/manga-es982101",
-                "synopsis": "The overworked Young Man fell into a hole, which leads him to another world. Now he has become a young boy named Arito and lives his life accompanied by fluffies. While being guided by an old Elf named Orst, he enjoys his new life in the magical forest.",
-                "views": "6,986,875",
+                "id": "manga-cb980036",
+                "title": "The World Of Otome Games Is Tough For Mobs",
+                "chapter": "Chapter 38",
+                "img": "https://avt.mkklcdnv6temp.com/13/q/17-1583495755.jpg",
+                "host": "readmanganato.com",
+                "src": "https://readmanganato.com/manga-cb980036",
+                "synopsis": "Leon, a former Japanese worker, was reincarnated into an “otome game” world, and despaired at how it was a world where females hold dominance over males. It was as if men were just livestock that served as stepping stones for females in this world. The only exceptions were the game’s romantic targets, a group of handsome men led by the crown prince.In these bizarre",
+                "views": "20,749,396",
                 "uploadedDate": "Dec 04,21",
-                "authors": "Kanade,Isaza Terada,Yahako",
-                "rating": "4.7"
+                "authors": "Yomu Mishima, Jun Shiosato",
+                "rating": "4.8"
             },
             {...},
             ...
@@ -180,7 +217,7 @@ Response body:
 ]
 ```
 
-### GET /manga_list`?exGenre=_35_37&sts=completed&keyw=one piece`
+#### Example 2:
 
 This query will exclude slice of life and sports genre and filter by a completed manga and the manga title `one piece`.
 
@@ -196,6 +233,12 @@ Response body:
 [
     {
         "info": {
+            "keyword": "one piece",
+            "filter_status": "completed",
+            "included_genres": "",
+            "excluded_genres": "",
+            "order_by": "",
+            "current_page": 1,
             "totalPages": ""
         },
         "data": []
@@ -204,6 +247,149 @@ Response body:
 ```
 
 response is empty because one piece is not completed yet :).
+
+### GET /manga_info
+
+#### Example 1:
+
+"id" parameter and "host-name" header can be seen in the above body response examples.
+
+Example:
+
+```
+curl --header "host-name: readmanganato.com" http://localhost:3000/manga_info?id=manga-cb980036
+```
+
+Response body:
+
+```
+[
+    {
+        "title": "The World Of Otome Games Is Tough For Mobs",
+        "img": "https://avt.mkklcdnv6temp.com/13/q/17-1583495755.jpg",
+        "alt": "Otome Game Sekai wa Mob ni Kibishii Sekai Desu",
+        "authors": [
+            {
+                "authorName": "Yomu Mishima",
+                "authorLink": "https://manganato.com/author/story/eW9tdV9taXNoaW1h"
+            },
+            {...},
+            ...
+        ],
+        "status": "Ongoing",
+        "lastUpdated": "Dec 04,2021 - 07:21 AM",
+        "views": "20,764,407",
+        "synopsis": "Leon, a former Japanese worker, was reincarnated into an ...",
+        "rating": "4.8",
+        "totalVotes": "8688",
+        "genres": [
+            {
+                "genre": "Adventure",
+                "genreLink": "https://manganato.com/genre-4"
+            },
+            {
+                "genre": "Comedy",
+                "genreLink": "https://manganato.com/genre-6"
+            },
+            {...},
+            ...
+        ],
+        "chapters": [
+            {
+                "chapterTitle": "Chapter 38",
+                "chapterViews": "30,031",
+                "uploadedDate": "2 hour ago ",
+                "chapterLink": "https://readmanganato.com/manga-cb980036/chapter-38"
+            },
+            {...},
+            ...
+        ]
+    }
+]
+```
+
+or you can use the `url` header instead like the below example to achieve the same result.
+
+#### Example 2:
+
+Example:
+
+```
+curl --header "url: https://readmanganato.com/manga-cb980036" http://localhost:3000/manga_info
+```
+
+Resbonse body:
+
+```
+[
+    {
+        "title": "The World Of Otome Games Is Tough For Mobs",
+        "img": "https://avt.mkklcdnv6temp.com/13/q/17-1583495755.jpg",
+        "alt": "Otome Game Sekai wa Mob ni Kibishii Sekai Desu",
+        "authors": [
+            {
+                "authorName": "Yomu Mishima",
+                "authorLink": "https://manganato.com/author/story/eW9tdV9taXNoaW1h"
+            },
+            {...},
+            ...
+        ],
+        "status": "Ongoing",
+        "lastUpdated": "Dec 04,2021 - 07:21 AM",
+        ...
+        "genres": [
+            {
+                "genre": "Adventure",
+                "genreLink": "https://manganato.com/genre-4"
+            },
+            {...},
+            ...
+        ],
+        "chapters": [
+            {
+                "chapterTitle": "Chapter 38",
+                "chapterViews": "30,031",
+                "uploadedDate": "2 hour ago ",
+                "chapterLink": "https://readmanganato.com/manga-cb980036/chapter-38"
+            },
+            {...},
+            ...
+```
+
+### GET /read_manga
+
+Finally, as seen in the sample below, you will be able to receive chapter pages as jpg images.
+
+#### Example 1:
+
+`url` header can be seen in the example above.
+
+Example:
+
+```
+curl --header "url: https://readmanganato.com/manga-cb980036/chapter-38" http://localhost:3000/read_manga
+```
+
+Response body:
+
+```
+[
+    {
+        "img": "https://s8.mkklcdnv6temp.com/mangakakalot/v1/vk917567/chapter_38/1.jpg",
+        "pageTitle": "The World of Otome Games is Tough for Mobs Chapter 38 page 1"
+    },
+    {
+        "img": "https://s8.mkklcdnv6temp.com/mangakakalot/v1/vk917567/chapter_38/2.jpg",
+        "pageTitle": "The World of Otome Games is Tough for Mobs Chapter 38 page 2"
+    },
+    {
+        "img": "https://s8.mkklcdnv6temp.com/mangakakalot/v1/vk917567/chapter_38/3.jpg",
+        "pageTitle": "The World of Otome Games is Tough for Mobs Chapter 38 page 3"
+    },
+    {...},
+    ...
+]
+```
 
 ## Contributing
 
