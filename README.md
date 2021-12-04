@@ -38,22 +38,20 @@ npm start
 
 ### Common Formats
 
-#### List / Pagination
+#### List / PaPaginatn
 
 ```json
-[
-    {
+{
         "info": {
-            "totalStories": ...,
-            "totalPages": "...
+            "keyword": ...,
+            "filter_status": ...,
+             ...
+  
         },
         "data": [
             {...},
             {...},
             ...
-        ]
-    }
-]
 ```
 
 #### Error format
