@@ -38,7 +38,7 @@ npm start
 
 ### Common Formats
 
-#### List / Panigation
+#### List / Pagination
 
 ```json
 [
