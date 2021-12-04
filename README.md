@@ -20,7 +20,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Cloning
 
-```
+```command
 git clone https://github.com/riimuru/Mangato-api.git
 cd mangato-api
 ```
@@ -29,7 +29,7 @@ cd mangato-api
 
 Install the packages and run the server.
 
-```
+```command
 npm install
 npm start
 ```
@@ -40,7 +40,7 @@ npm start
 
 #### List / Panigation
 
-```
+```json
 [
     {
         "info": {
@@ -58,7 +58,7 @@ npm start
 
 #### Error format
 
-```
+```json
 {
     "status": 404,
     "error": "Not Found"
@@ -162,13 +162,13 @@ This query will filter result by status only.
 
 Example:
 
-```
+```command
 curl 'http://localhost:3000/manga_list?sts=ongoing'
 ```
 
 Response body:
 
-```
+```json
 [
     {
         "info": {
@@ -229,7 +229,7 @@ curl 'http://localhost:3000/manga_list?sts=completed&keyw=one%20piece'
 
 Response body:
 
-```
+```json
 [
     {
         "info": {
@@ -262,7 +262,7 @@ curl --header "host-name: readmanganato.com" http://localhost:3000/manga_info?id
 
 Response body:
 
-```
+```json
 [
     {
         "title": "The World Of Otome Games Is Tough For Mobs",
@@ -314,13 +314,13 @@ or you can use the `url` header instead like the below example to achieve the sa
 
 Example:
 
-```
+```command
 curl --header "url: https://readmanganato.com/manga-cb980036" http://localhost:3000/manga_info
 ```
 
 Resbonse body:
 
-```
+```json
 [
     {
         "title": "The World Of Otome Games Is Tough For Mobs",
@@ -366,13 +366,13 @@ Finally, as seen in the sample below, you will be able to receive chapter pages 
 
 Example:
 
-```
+```command
 curl --header "url: https://readmanganato.com/manga-cb980036/chapter-38" http://localhost:3000/read_manga
 ```
 
 Response body:
 
-```
+```json
 [
     {
         "img": "https://s8.mkklcdnv6temp.com/mangakakalot/v1/vk917567/chapter_38/1.jpg",
