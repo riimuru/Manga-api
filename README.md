@@ -187,7 +187,7 @@ Response body:
                 "title": "Hell Mode: Yarikomi Suki No Gamer Wa Hai Settei No Isekai De Musou Suru",
                 "chapter": "Chapter 14: Talent",
                 "img": "https://avt.mkklcdnv6temp.com/33/n/22-1604080648.jpg",
-                "host": "manganato.com",
+                "host_name": "manganato.com",
                 "src": "https://manganato.com/manga-jn987096",
                 "synopsis": "\"Will you be summoned to the world of a never-ending game?\" One day, I was looking for a new game, when I suddenly saw that ad. After choosing the most difficult mode of the game, \"hell mode\", I was suddenly reincarnated into a new world as a farmhand.  As a boy named Allen, I started my journey in another world with the highest difficulty, overcoming all challenges to ach",
                 "views": "6,330,209",
@@ -201,7 +201,7 @@ Response body:
                 "title": "The World Of Otome Games Is Tough For Mobs",
                 "chapter": "Chapter 38",
                 "img": "https://avt.mkklcdnv6temp.com/13/q/17-1583495755.jpg",
-                "host": "readmanganato.com",
+                "host_name": "readmanganato.com",
                 "src": "https://readmanganato.com/manga-cb980036",
                 "synopsis": "Leon, a former Japanese worker, was reincarnated into an “otome game” world, and despaired at how it was a world where females hold dominance over males. It was as if men were just livestock that served as stepping stones for females in this world. The only exceptions were the game’s romantic targets, a group of handsome men led by the crown prince.In these bizarre",
                 "views": "20,749,396",
@@ -353,6 +353,9 @@ Resbonse body:
             },
             {...},
             ...
+        ]
+    }
+]
 ```
 
 ### GET /read_manga
