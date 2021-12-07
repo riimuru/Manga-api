@@ -2,12 +2,6 @@
 
 This api is based on [manganato](https://manganato.com/) manga reading api to give you a better experience for your app.
 
-### Built With
-
-- [Express](https://expressjs.com/)
-- [Cheerio](https://cheerio.js.org/)
-- [axios](https://axios-http.com/)
-
 ## Table of Contents
 
 **[Getting Started](#getting-started)**<br>
@@ -255,7 +249,7 @@ response is empty because one piece is not completed yet :).
 
 Example:
 
-```
+```command
 curl --header "host-name: readmanganato.com" http://localhost:3000/manga_info?id=manga-cb980036
 ```
 
@@ -317,7 +311,7 @@ Example:
 curl --header "url: https://readmanganato.com/manga-cb980036" http://localhost:3000/manga_info
 ```
 
-Resbonse body:
+Response body:
 
 ```json
 [
